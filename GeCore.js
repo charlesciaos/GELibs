@@ -76,11 +76,6 @@ var MessageQueue = new Array();
 /* lastMessageID - the ID of the most recent chat message */
 var lastMessageID = -1; 
 
-var RPiServerURL = "http://charlesciaos.diskstation.me/api/GeService/webiopi_RESTAPI.php";
-
-var $path = "";
-var $method = "";
-
 // Main
 function initMessageQueue()
 {
