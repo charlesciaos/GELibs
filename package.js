@@ -17,11 +17,15 @@ var package = {
       if(scriptTags[i].src && scriptTags[i].src.match(/package\.js(\?.*)?$/))
       {
         var path = scriptTags[i].src.replace(/package\.js(\?.*)?$/,'');
+        //core
         this.require(path + 'GeCore.js');
         this.require(path + 'GeObject.js');
         this.require(path + 'GeShape.js');
-        this.require(path + 'GeUtil.js');
         this.require(path + 'GeWorld.js');
+        //SDK
+        this.require(path + 'GeUtil.js');
+        this.require(path + 'GeInterface.js');
+        //applications service
         this.require(path + 'GeDialog.js');
         break;
       }

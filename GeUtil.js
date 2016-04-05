@@ -1,3 +1,53 @@
+function instanceOf(object, constructor)
+{
+   while (object != null)
+   {
+      if (object == constructor.prototype)
+      {
+         return true;
+      }
+      object = object.__proto__;
+   }
+   return false;
+}
+
+function getTextSync(url)
+{
+  var request = new createXmlHttpRequestObject();
+  request.open("GET", url, false);
+  request.send(null);
+
+  if(request.status !== 200)
+  {
+    return "Error1";//throw new Error(request.statusText);
+  }
+  
+  //var type = request.getResopnseHeader("Content-Type");
+  //if(!type.match(/^text/)) return "Error2";//throw new Error("Expected textual response; got:" + type);
+
+  return request.responseText;
+}
+
+function getText(url, callback)
+{
+  var requests = new createXmlHttpRequestObject();
+  requests.open("GET", url);
+  requests.onreadystatechange = function()
+  {
+    if(requests.readyState === 4 && requests.status === 200)
+    {
+      var type = requests.getResopnseHeader("Content-Type");
+      if(type.match(/^text/))
+      {
+        callback(requests.responseText);
+      }
+    }
+  }
+
+  requests.send(null);
+}
+
+
 var fit = function(div, imgW, imgH)
 {
     this.container = div; 
