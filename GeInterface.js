@@ -16,25 +16,13 @@ function GeInterface()
 
 }
 
-function RPi_RotateCamera()
-{
+function AddCounter()
+{   
     var eventObj = new Object();
     // set the flag that specifies we're deleting the messages
-    eventObj.path = "http://charlesciaos.diskstation.me/api/GeService/webiopi_RESTAPI.php";
-    eventObj.params = "path=/GPIO/22/function/out&method=POST";
+    eventObj.path = "http://charlesciaos.diskstation.me/api/GeService/add_counter.php";
+    eventObj.params = null;
+    eventObj.callback = null;
     // add the message to the queue
     MessageQueue.push(eventObj);
-    setTimeout("requestNewMessages();", updateInterval);
-}
-
-function RPi_takePicture()
-{
-    var req = new createXmlHttpRequestObject();
-    req.open('GET', "/api/GeService/demossh2.php", true);
-    req.send(null);
-    //var oShowPic=document.getElementById("showPic");
-    //oShowPic.innerHTML = "<img src='res/pi/camImage.jpg'></img>";
-    //var headers = req.getAllResponseHeaders().toLowerCase();
-    //document.write("Headers are:"+headers);
-    //alert(headers);
 }
