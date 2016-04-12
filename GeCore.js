@@ -1,4 +1,4 @@
-﻿//"use strict";
+//"use strict";
 
 // creates an XMLHttpRequest instance
 function createXmlHttpRequestObject() 
@@ -76,11 +76,20 @@ var MessageQueue = new Array();
 /* lastMessageID - the ID of the most recent chat message */
 var lastMessageID = -1; 
 
+var MessageQueueTimer;
+
+//clearTimeout(timer);
+
 // Main
 function initMessageQueue()
 {
     // stores the reference to the XMLHttpRequest object
     xmlHttpGetMessages = createXmlHttpRequestObject();
+
+    //xhr.addEventListener("progress", updateProgress);
+    //xhr.addEventListener("load", transferComplete);
+    //xhr.addEventListener("error", transferFailed);
+    //xhr.addEventListener("abort", transferCanceled);
 
     requestNextMessages();
 }
@@ -99,7 +108,7 @@ function requestNextMessages()
         || xmlHttpGetMessages.readyState == 0)
         {
             // we will store the parameters used to make the server request
-            var params = "";
+
             // if there are requests stored in queue, take the oldest one
             if(MessageQueue.length>0)
             {
@@ -108,25 +117,19 @@ function requestNextMessages()
                 console.log("[MQ] shift path:" + eventObj.path +"@@@!!!");
                 console.log("[MQ] shift params:" + eventObj.params +"@@@!!!");
 
-                // call the server page to execute the server-side operation
-                xmlHttpGetMessages.open("POST", eventObj.path, true);
-                xmlHttpGetMessages.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                xmlHttpGetMessages.onreadystatechange = handleReceivingMessages;
-
-                xmlHttpGetMessages.send(eventObj.params);
-                console.log("[MQ] send message completed.");
+                handleMessage(eventObj.path, eventObj.params, eventObj.callback, true);
             }
             else
             {
                 console.log("[MQ] MessageQueue is Empty");
             }
 
-            setTimeout("requestNextMessages();", updateInterval);
+            MessageQueueTimer = setTimeout("requestNextMessages();", updateInterval);
         }
         else
         {
             // we will check again for new messages 
-            setTimeout("requestNextMessages();", updateInterval);
+            MessageQueueTimer = setTimeout("requestNextMessages();", updateInterval);
         }
     }
     catch(e)
@@ -136,7 +139,25 @@ function requestNextMessages()
   }
 }
 
-function handleReceivingMessages() 
+function handleMessage(path, params, callback, bSync)
+{
+    // call the server page to execute the server-side operation
+    xmlHttpGetMessages.open("POST", path, true);
+    xmlHttpGetMessages.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    
+    if(null == callback)
+    {
+      xmlHttpGetMessages.onreadystatechange = defaultHandleReceivingMessages;
+    }
+    else
+    {
+      xmlHttpGetMessages.onreadystatechange = callback; 
+    }
+    xmlHttpGetMessages.send(eventObj.params);
+    console.log("[MQ] send message completed.");    
+}
+
+function defaultHandleReceivingMessages() 
 {
   // continue if the process is completed
   if(xmlHttpGetMessages.readyState == 4) 
@@ -146,7 +167,7 @@ function handleReceivingMessages()
     {
       try
       {
-        readMessages();
+        defaultReadMessages();
       }
       catch(e)
       {
@@ -160,12 +181,12 @@ function handleReceivingMessages()
   }
 }
 
-function readMessages()
+function defaultReadMessages()
 {  
     // retrieve the server's response 
     var response = xmlHttpGetMessages.responseText;
 
-    console.log("[MQ] readMessages: " + response +"@@@!!!");
+    console.log("[MQ] defaultReadMessages: " + response +"@@@!!!");
     
     // server error?
     if(response.indexOf("ERRNO") >= 0 
@@ -180,4 +201,32 @@ function readMessages()
 
     console.log("readMessages:" + response +"@@@!!!");
     
+}
+
+// public function 
+
+// sync api
+function SendMessage(path, params, callback)
+{
+    var eventObj = new Object();
+    // set the flag that specifies we're deleting the messages
+    eventObj.path = path;
+    eventObj.params = params;
+    eventObj.callback = callback;
+    // add the message to the queue
+    clearTimeout(MessageQueueTimer);
+    handleMessage(eventObj.path, params, callback, true);
+    MessageQueueTimer = setTimeout("requestNextMessages();", updateInterval);    
+}
+
+// async api
+function PostMessage(path, params, callback)
+{
+    var eventObj = new Object();
+    // set the flag that specifies we're deleting the messages
+    eventObj.path = path;
+    eventObj.params = params;
+    eventObj.callback = callback;
+    // add the message to the queue
+    MessageQueue.push(eventObj); 
 }

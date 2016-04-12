@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 
 function GeInterface()
 {
@@ -24,5 +24,9 @@ function AddCounter()
     eventObj.params = null;
     eventObj.callback = null;
     // add the message to the queue
-    MessageQueue.push(eventObj);
+    PostMessage(eventObj.path, eventObj.params, eventObj.callback);
 }
+
+
+
+

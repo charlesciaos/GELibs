@@ -2,6 +2,14 @@
 
 function createDialog()
 {
+
+//switch (type)
+//{
+	//waitingDialog
+	//messageDialog
+	//confirmDialog
+//}
+
 //var divDialog = document.createElement("div");
 
 //var dialog = document.createElement("dialog");
