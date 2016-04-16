@@ -139,10 +139,10 @@ function requestNextMessages()
   }
 }
 
-function handleMessage(path, params, callback, bSync)
+function handleMessage(path, params, callback, bAsync)
 {
     // call the server page to execute the server-side operation
-    xmlHttpGetMessages.open("POST", path, true);
+    xmlHttpGetMessages.open("POST", path, bAsync);
     xmlHttpGetMessages.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     
     if(null == callback)
