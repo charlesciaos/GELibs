@@ -24,6 +24,7 @@ var package = {
         this.require(path + 'GeWorld.js');
         //SDK
         this.require(path + 'GeUtil.js');
+        this.require(path + 'GeDebug.js');
         this.require(path + 'GeInterface.js');
         //applications service
         this.require(path + 'GeDialog.js');

@@ -1,3 +1,9 @@
+function canvasSupport()
+{
+    return true;
+}
+
+
 function instanceOf(object, constructor)
 {
    while (object != null)
