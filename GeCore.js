@@ -139,7 +139,7 @@ function requestNextMessages()
   }
 }
 
-function handleMessage(path, params, callback, bAsync)
+function handleMessage(path, params, callback, bAsync=true)
 {
     // call the server page to execute the server-side operation
     xmlHttpGetMessages.open("POST", path, bAsync);
@@ -199,7 +199,7 @@ function defaultReadMessages()
     // retrieve the document element
     response = xmlHttpGetMessages.responseXML.documentElement;
 
-    console.log("readMessages:" + response +"@@@!!!");
+    console.log("[MQ] default readMessages:" + response +"@@@!!!");
     
 }
 

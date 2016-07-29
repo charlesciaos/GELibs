@@ -131,6 +131,9 @@ var addEvent = function(elem, type, eventHandle)
     }
 };
 
+
+//-------------------------------------
+
 function Car() 
 { 
     console.log("Car constructor");
@@ -160,6 +163,8 @@ Car.prototype.showName = function()
 { 
     console.log("這款車的名稱是" + this.name); 
 }
+
+/*
 
 function preloader()
 {
@@ -192,7 +197,7 @@ function addLoadEvent(func)
 }
 
 addLoadEvent(preloader);
-
+*/
 
 /*
 var theCanvas = document.getElementById("canvas");

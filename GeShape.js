@@ -1,37 +1,32 @@
 ﻿"use strict";
 
-function GEShape()
+function GeShape()
 {
 	//this.obj.apply(this, arguments);
-	console.log("GEShape constructor");
+	console.log("GeShape constructor");
 	//TBD: add this obj to world manager.
 	
 	for( var i=0; i<arguments.length; i++ )
 	{
-        console.log("GEShape: arguments[" + i + "] = " + arguments[i]);
+        console.log("GeShape: arguments[" + i + "] = " + arguments[i]);
     }
 
-
     //public:
-    
     //private:
 	
 	
 }
-GEShape.prototype = new GEObject();
+GeShape.prototype = new GeObject();
 
+GeShape.prototype._width = 0;
+
+GeShape.prototype._height = 0;
 
 /*
 //---- GEShape Property ----
 
-//id
-GEShape.prototype.id = 0;
-
-//
-GEShape.prototype.bEnableG = false;
-
 //weight
-GEShape.prototype.m = 0;
+
 
 //position
 GEShape.prototype.x = 0;
